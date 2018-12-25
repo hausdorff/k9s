@@ -1,0 +1,51 @@
+use std::collections::HashMap;
+
+pub mod k8s {
+    pub trait Resource {
+        fn api_version(&self) -> String;
+        fn kind(&self) -> String;
+    }
+}
+
+{{#groups}}
+pub mod {{group}} {
+    {{#versions}}
+    pub mod {{version}} {
+        use super::super::*;
+
+        //
+        // Top-level resource types.
+        //
+
+        {{#topLevelKinds}}
+        #[derive(Clone)]
+        pub struct {{kind}} {
+            {{#properties}}
+            {{name}}: {{{type}}},
+            {{/properties}}
+        }
+
+        impl k8s::Resource for {{kind}} {
+            fn api_version(&self) -> String {self.apiVersion.to_string()}
+            fn kind(&self) -> String {self.kind.to_string()}
+        }
+
+        {{/topLevelKinds}}
+        //
+        // Resource helper types.
+        //
+
+        {{#kinds}}
+        #[derive(Clone)]
+        pub struct {{kind}} {
+            {{#properties}}
+            {{name}}: {{{type}}},
+            {{/properties}}
+        }
+
+        {{/kinds}}
+    }
+    {{/versions}}
+}
+
+{{/groups}}
