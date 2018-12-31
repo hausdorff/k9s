@@ -1,3 +1,5 @@
+use futures;
+
 use crate::types::api;
 
 #[allow(unused)]
@@ -19,8 +21,8 @@ pub struct Node {}
 // ------------------------------------------------------------------------------------------------
 
 pub trait MasterConnection {
-    fn update_node(&self, node: Node);
-    fn update_pod(&self, pod: api::core::v1::Pod);
+    fn update_node<'a>(&self, node: &'a Node);
+    fn update_pod<'a>(&self, pod: &'a api::core::v1::Pod);
 }
 
 #[allow(unused)]
@@ -35,11 +37,13 @@ pub enum PodPhase {
 pub trait PodProvider {
     fn fetch(&self, pod: api::core::v1::Pod);
     fn run(&self, pod: api::core::v1::Pod);
+    fn kill<'a>(&self, namespace: &'a str, name: &'a str);
 }
 
 pub trait Kubelet {
-    fn create(&self, pod: api::core::v1::Pod);
-    fn update(&self, live: Option<api::core::v1::Pod>, spec: Option<api::core::v1::Pod>);
+    fn run(&self) -> futures::Empty<(), ()>;
+    fn register_pod(&self, pod: api::core::v1::Pod); // TODO: Return result.
+    fn deregister_pod<'a>(&self, namespace: &'a str, name: &'a str);
 }
 
 // ------------------------------------------------------------------------------------------------

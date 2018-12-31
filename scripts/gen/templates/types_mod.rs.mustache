@@ -21,7 +21,7 @@ pub mod {{group}} {
         #[derive(Clone)]
         pub struct {{kind}} {
             {{#properties}}
-            {{name}}: {{{type}}},
+            pub {{name}}: {{{type}}},
             {{/properties}}
         }
 
@@ -39,7 +39,7 @@ pub mod {{group}} {
         #[derive(Clone)]
         pub struct {{kind}} {
             {{#properties}}
-            {{name}}: {{{type}}},
+            pub {{name}}: {{{type}}},
             {{/properties}}
         }
 

@@ -17,19 +17,15 @@ pub mod core {
 
         #[derive(Clone)]
         pub struct Pod {
-            apiVersion: String,
-            kind: String,
-            metadata: Option<meta::v1::ObjectMeta>,
-            status: Option<core::v1::PodStatus>,
+            pub apiVersion: String,
+            pub kind: String,
+            pub metadata: Option<meta::v1::ObjectMeta>,
+            pub status: Option<core::v1::PodStatus>,
         }
 
         impl k8s::Resource for Pod {
-            fn api_version(&self) -> String {
-                self.apiVersion.to_string()
-            }
-            fn kind(&self) -> String {
-                self.kind.to_string()
-            }
+            fn api_version(&self) -> String {self.apiVersion.to_string()}
+            fn kind(&self) -> String {self.kind.to_string()}
         }
 
         //
@@ -38,67 +34,68 @@ pub mod core {
 
         #[derive(Clone)]
         pub struct ContainerState {
-            running: Option<core::v1::ContainerStateRunning>,
-            terminated: Option<core::v1::ContainerStateTerminated>,
-            waiting: Option<core::v1::ContainerStateWaiting>,
+            pub running: Option<core::v1::ContainerStateRunning>,
+            pub terminated: Option<core::v1::ContainerStateTerminated>,
+            pub waiting: Option<core::v1::ContainerStateWaiting>,
         }
 
         #[derive(Clone)]
         pub struct ContainerStateRunning {
-            startedAt: Option<String>,
+            pub startedAt: Option<String>,
         }
 
         #[derive(Clone)]
         pub struct ContainerStateTerminated {
-            containerID: Option<String>,
-            exitCode: i32,
-            finishedAt: Option<String>,
-            message: Option<String>,
-            reason: Option<String>,
-            signal: Option<i32>,
-            startedAt: Option<String>,
+            pub containerID: Option<String>,
+            pub exitCode: i32,
+            pub finishedAt: Option<String>,
+            pub message: Option<String>,
+            pub reason: Option<String>,
+            pub signal: Option<i32>,
+            pub startedAt: Option<String>,
         }
 
         #[derive(Clone)]
         pub struct ContainerStateWaiting {
-            message: Option<String>,
-            reason: Option<String>,
+            pub message: Option<String>,
+            pub reason: Option<String>,
         }
 
         #[derive(Clone)]
         pub struct ContainerStatus {
-            containerID: Option<String>,
-            image: String,
-            imageID: String,
-            lastState: Option<core::v1::ContainerState>,
-            name: String,
-            ready: bool,
-            restartCount: i32,
-            state: Option<core::v1::ContainerState>,
+            pub containerID: Option<String>,
+            pub image: String,
+            pub imageID: String,
+            pub lastState: Option<core::v1::ContainerState>,
+            pub name: String,
+            pub ready: bool,
+            pub restartCount: i32,
+            pub state: Option<core::v1::ContainerState>,
         }
 
         #[derive(Clone)]
         pub struct PodCondition {
-            lastProbeTime: Option<String>,
-            lastTransitionTime: Option<String>,
-            message: Option<String>,
-            reason: Option<String>,
-            status: String,
+            pub condition_type: String,
+            pub lastProbeTime: Option<String>,
+            pub lastTransitionTime: Option<String>,
+            pub message: Option<String>,
+            pub reason: Option<String>,
+            pub status: String,
         }
 
         #[derive(Clone)]
         pub struct PodStatus {
-            conditions: Option<Vec<core::v1::PodCondition>>,
-            containerStatuses: Option<Vec<core::v1::ContainerStatus>>,
-            hostIP: Option<String>,
-            initContainerStatuses: Option<Vec<core::v1::ContainerStatus>>,
-            message: Option<String>,
-            nominatedNodeName: Option<String>,
-            phase: Option<String>,
-            podIP: Option<String>,
-            qosClass: Option<String>,
-            reason: Option<String>,
-            startTime: Option<String>,
+            pub conditions: Option<Vec<core::v1::PodCondition>>,
+            pub containerStatuses: Option<Vec<core::v1::ContainerStatus>>,
+            pub hostIP: Option<String>,
+            pub initContainerStatuses: Option<Vec<core::v1::ContainerStatus>>,
+            pub message: Option<String>,
+            pub nominatedNodeName: Option<String>,
+            pub phase: Option<String>,
+            pub podIP: Option<String>,
+            pub qosClass: Option<String>,
+            pub reason: Option<String>,
+            pub startTime: Option<String>,
         }
 
     }
@@ -114,23 +111,19 @@ pub mod meta {
 
         #[derive(Clone)]
         pub struct Status {
-            apiVersion: String,
-            code: Option<i32>,
-            details: Option<meta::v1::StatusDetails>,
-            kind: String,
-            message: Option<String>,
-            metadata: Option<meta::v1::ListMeta>,
-            reason: Option<String>,
-            status: Option<String>,
+            pub apiVersion: String,
+            pub code: Option<i32>,
+            pub details: Option<meta::v1::StatusDetails>,
+            pub kind: String,
+            pub message: Option<String>,
+            pub metadata: Option<meta::v1::ListMeta>,
+            pub reason: Option<String>,
+            pub status: Option<String>,
         }
 
         impl k8s::Resource for Status {
-            fn api_version(&self) -> String {
-                self.apiVersion.to_string()
-            }
-            fn kind(&self) -> String {
-                self.kind.to_string()
-            }
+            fn api_version(&self) -> String {self.apiVersion.to_string()}
+            fn kind(&self) -> String {self.kind.to_string()}
         }
 
         //
@@ -139,67 +132,68 @@ pub mod meta {
 
         #[derive(Clone)]
         pub struct Initializer {
-            name: String,
+            pub name: String,
         }
 
         #[derive(Clone)]
         pub struct Initializers {
-            pending: Vec<meta::v1::Initializer>,
-            result: Option<meta::v1::Status>,
+            pub pending: Vec<meta::v1::Initializer>,
+            pub result: Option<meta::v1::Status>,
         }
 
         #[derive(Clone)]
         pub struct ListMeta {
-            resourceVersion: Option<String>,
-            selfLink: Option<String>,
+            pub resourceVersion: Option<String>,
+            pub selfLink: Option<String>,
         }
 
         #[derive(Clone)]
         pub struct ObjectMeta {
-            annotations: Option<HashMap<String, String>>,
-            clusterName: Option<String>,
-            creationTimestamp: Option<String>,
-            deletionGracePeriodSeconds: Option<i32>,
-            deletionTimestamp: Option<String>,
-            finalizers: Option<Vec<String>>,
-            generateName: Option<String>,
-            generation: Option<i32>,
-            initializers: Option<meta::v1::Initializers>,
-            labels: Option<HashMap<String, String>>,
-            name: Option<String>,
-            namespace: Option<String>,
-            ownerReferences: Option<Vec<meta::v1::OwnerReference>>,
-            resourceVersion: Option<String>,
-            selfLink: Option<String>,
-            uid: Option<String>,
+            pub annotations: Option<HashMap<String, String>>,
+            pub clusterName: Option<String>,
+            pub creationTimestamp: Option<String>,
+            pub deletionGracePeriodSeconds: Option<i32>,
+            pub deletionTimestamp: Option<String>,
+            pub finalizers: Option<Vec<String>>,
+            pub generateName: Option<String>,
+            pub generation: Option<i32>,
+            pub initializers: Option<meta::v1::Initializers>,
+            pub labels: Option<HashMap<String, String>>,
+            pub name: Option<String>,
+            pub namespace: Option<String>,
+            pub ownerReferences: Option<Vec<meta::v1::OwnerReference>>,
+            pub resourceVersion: Option<String>,
+            pub selfLink: Option<String>,
+            pub uid: Option<String>,
         }
 
         #[derive(Clone)]
         pub struct OwnerReference {
-            apiVersion: String,
-            blockOwnerDeletion: Option<bool>,
-            controller: Option<bool>,
-            kind: String,
-            name: String,
-            uid: String,
+            pub apiVersion: String,
+            pub blockOwnerDeletion: Option<bool>,
+            pub controller: Option<bool>,
+            pub kind: String,
+            pub name: String,
+            pub uid: String,
         }
 
         #[derive(Clone)]
         pub struct StatusCause {
-            field: Option<String>,
-            message: Option<String>,
-            reason: Option<String>,
+            pub field: Option<String>,
+            pub message: Option<String>,
+            pub reason: Option<String>,
         }
 
         #[derive(Clone)]
         pub struct StatusDetails {
-            causes: Option<Vec<meta::v1::StatusCause>>,
-            group: Option<String>,
-            kind: String,
-            name: Option<String>,
-            retryAfterSeconds: Option<i32>,
-            uid: Option<String>,
+            pub causes: Option<Vec<meta::v1::StatusCause>>,
+            pub group: Option<String>,
+            pub kind: String,
+            pub name: Option<String>,
+            pub retryAfterSeconds: Option<i32>,
+            pub uid: Option<String>,
         }
 
     }
 }
+

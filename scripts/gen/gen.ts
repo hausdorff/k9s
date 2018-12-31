@@ -10,7 +10,7 @@ const propBlacklist = new Set([
     //
     "spec",
     "continue",
-    "type",
+    // "type",
 
     "awsElasticBlockStore",
     "azureDisk",
@@ -33,6 +33,8 @@ const propBlacklist = new Set([
     "storageos",
     "vsphereVolume"
 ]);
+
+const renaming = new Map([["type", "condition_type"]]);
 
 class Group {
     constructor(
@@ -241,7 +243,10 @@ function renderProperties(kind: any): im.List<Property> {
         .map(propName => {
             const rustType = makeRustType(props[propName]);
             const fqRustType = required.has(propName) ? rustType : `Option<${rustType}>`;
-            return new Property(propName, fqRustType);
+            return new Property(
+                <string>(renaming.has(propName) ? renaming.get(propName) : propName),
+                fqRustType
+            );
         });
 }
 
@@ -276,7 +281,7 @@ function writeTypes(spec: any) {
         fs.readFileSync("templates/types_mod.rs.mustache").toString(),
         view
     );
-    fs.writeFileSync("../../src/types/mod.rs", modRs);
+    fs.writeFileSync("../../src/types/api.rs", modRs);
 }
 
 function writePaths(spec: any) {
